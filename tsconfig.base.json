@@ -1,5 +1,13 @@
 {
   "compilerOptions": {
+    "jsx": "react-native",
+    "allowJs": true,
+    "noEmit": true,
+    "strict": true,
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": true,
+    "strictPropertyInitialization": false,
+    "strictNullChecks": true,
     "composite": true,
     "declarationMap": true,
     "emitDeclarationOnly": true,
@@ -14,8 +22,23 @@
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "skipLibCheck": true,
-    "strict": true,
     "target": "es2022",
-    "customConditions": ["development"]
-  }
+    "customConditions": ["development"],
+    "baseUrl": ".",
+    "rootDir": ".",
+    "outDir": "dist",
+    "paths": {
+      "@vercel-ai-demo/web/shared/utils/app-env": ["libs/web/shared/utils/app-env/src/index.ts"],
+      "@vercel-ai-demo/web/shared/utils/i18n": ["libs/web/shared/utils/i18n/src/index.ts"]
+    }
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.js",
+    "**/*.jsx",
+    ".eslint*.cjs",
+    "eslint.config.cjs",
+    "eslint.constraints.json"
+  ]
 }

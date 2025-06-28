@@ -1,101 +1,104 @@
-# VercelAiDemo
+# Vercel Ai Demo
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+This workspace contains source code for Vercel Ai Demo project.
+Each app in the `apps` directory has own `README` where you can find more details about it.
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is ready ✨.
+## Getting started
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/nx-api/next?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
-
-## Run tasks
-
-To run the dev server for your app, use:
+1. Install dependencies: `npm install`
+1. Launch desired app for development:
 
 ```sh
-npx nx dev web
+npx nx start {app-name}
 ```
 
-To create a production bundle:
+Or navigate to an app directory to run it as described in `README`.
+
+## Resources
+
+Below are links to tools and services used in this project:
+
+- [Tasks]() (will be added later)
+- [Design]() (will be added later)
+- [Expo]() (will be added later)
+- [Google Play Console]() (will be added later)
+- [App Store Connect]() (will be added later)
+- [Firebase]() (will be added later)
+- [API Documentation]() (will be added later)
+- [Laravel Telescope]() (will be added later)
+- [Sentry]() (will be added later)
+
+## Repository management
+
+This workspace uses [Nx](https://nx.dev/getting-started/intro) for repository management and code generation.
+You can install [Nx extension](https://nx.dev/getting-started/editor-setup) for your code editor.
+
+### Code generation
+
+We use [custom Nx generators](https://github.com/RonasIT/nx-generators) plugin for code generation.\
+Run `npx nx list @ronas-it/nx-generators` to view a list of available generators in the plugin.\
+Each generator accepts the `--help` argument to show instructions.
+
+#### Generate libraries
+
+Example:
 
 ```sh
-npx nx build web
+npx nx g react-lib
 ```
 
-To see all available targets to run for a project, run:
+Check [the generators docs](https://github.com/RonasIT/nx-generators/blob/main/README.md#generators-overview) for more operations with libraries.
 
-```sh
-npx nx show project web
-```
+#### Generate components
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
+- `npx nx g react-component` - generate a root component in some library
+- `npx nx g react-component --name=AppButton --subcomponent` - generate a library sub-component.
 
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+#### Generate apps
 
-## Add new projects
+- `npx nx g expo-app` - generate new RN Expo app
 
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
+### Running tasks
 
-Use the plugin's generator to create new projects.
+To execute tasks with Nx use the following syntax: `npx nx <target> <project> <...options>`.\
+You can also run multiple targets: `npx nx run-many -t <target1> <target2>`.\
+Targets can be defined in the `package.json` or `projects.json`. Learn more [in the docs](https://nx.dev/features/run-tasks).
 
-To generate a new application, use:
+## Dependencies management
 
-```sh
-npx nx g @nx/next:app demo
-```
+This repository uses [NPM Workspaces](https://docs.npmjs.com/cli/using-npm/workspaces) to manage dependencies.
+Dependencies that used in `libs` should be listed both in root and app's `package.json`.
 
-To generate a new library, use:
+### Installing dependencies
 
-```sh
-npx nx g @nx/react:lib mylib
-```
+Run the following scripts in the repository root:
 
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
+- `npm i {some-package} -w {app-name} -iwr` - install some package for particular app and for the whole repository
+- `npm i {some-package} -ws -iwr` - install some package for all apps and including root one `package.json`
 
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+You can also navigate to an app directory and install package there:
 
-## Set up CI!
+- `npm i {some-package} -iwr`
 
-### Step 1
+### Uninstalling dependencies
 
-To connect to Nx Cloud, run the following command:
+The same rules apply to removing dependencies:
 
-```sh
-npx nx connect
-```
+- `npm uni {some-package} -w {app-name} -iwr` - uninstall some package for particular app and for the whole repository
+- `npm uni {some-package} -ws -iwr` - uninstall some package for all apps and including root `package.json`
 
-Connecting to Nx Cloud ensures a [fast and scalable CI](https://nx.dev/ci/intro/why-nx-cloud?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) pipeline. It includes features such as:
+### Syncing dependencies
 
-- [Remote caching](https://nx.dev/ci/features/remote-cache?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task distribution across multiple machines](https://nx.dev/ci/features/distribute-task-execution?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Automated e2e test splitting](https://nx.dev/ci/features/split-e2e-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task flakiness detection and rerunning](https://nx.dev/ci/features/flaky-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+To check consistency of packages versions across workspaces run the following command in the project root:
 
-### Step 2
+- `npm run deps:sync`
 
-Use the following command to configure a CI workflow for your workspace:
+After that check the changes and run `npm i` to install adjusted versions.
 
-```sh
-npx nx g ci-workflow
-```
+## Code checks
 
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+This project has pre-configured linting and formatting rules with pre-commit hook.
+You can execute these commands for the whole project manually:
 
-## Install Nx Console
-
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
-
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Useful links
-
-Learn more:
-
-- [Learn more about this workspace setup](https://nx.dev/nx-api/next?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-And join the Nx community:
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+- `npm run lint` - run necessary code checks
+- `npm run format` - run code autoformat

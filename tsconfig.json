@@ -1,10 +1,3 @@
 {
-  "extends": "./tsconfig.base.json",
-  "compileOnSave": false,
-  "files": [],
-  "references": [
-    {
-      "path": "./apps/web"
-    }
-  ]
+  "extends": "./tsconfig.base.json"
 }
