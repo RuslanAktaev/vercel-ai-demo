@@ -15,7 +15,7 @@ export function TestComponent(): ReactElement {
   const [text, setText] = useState<string>('');
 
   const handlePromptChange = (event: ChangeEvent<HTMLTextAreaElement>): void => {
-    setPrompt((event.target as HTMLTextAreaElement).value);
+    setPrompt(event.target.value);
   };
 
   const handleAskPress = async (): Promise<void> => {
