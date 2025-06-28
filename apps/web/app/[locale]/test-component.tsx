@@ -2,31 +2,48 @@
 
 import { generateText } from 'ai';
 import { createOllama } from 'ollama-ai-provider';
-import { ReactElement, useEffect, useState } from 'react';
+import { ChangeEvent, ReactElement, useState } from 'react';
 
 const ollamaProvider = createOllama({
   baseURL: 'http://localhost:11434/api',
 });
 
 export function TestComponent(): ReactElement {
+  const [prompt, setPrompt] = useState('');
+
+  const [isProcessing, setIsProcessing] = useState(false);
   const [text, setText] = useState<string>('');
 
-  console.log('process.env.NEXT_PUBLIC_APP_ENV', process.env.NEXT_PUBLIC_XAI_API_KEY);
-
-  const getText = async (): Promise<void> => {
-    const { text } = await generateText({
-      model: ollamaProvider('mistral'),
-      prompt: 'Shall I become a gainer?',
-    });
-
-    console.log(text);
-
-    setText(text);
+  const handlePromptChange = (event: ChangeEvent<HTMLTextAreaElement>): void => {
+    setPrompt((event.target as HTMLTextAreaElement).value);
   };
 
-  useEffect(() => {
-    getText();
-  });
+  const handleAskPress = async (): Promise<void> => {
+    setIsProcessing(true);
 
-  return <div>{text}</div>;
+    try {
+      const { text } = await generateText({
+        model: ollamaProvider('mistral'),
+        prompt,
+      });
+
+      setPrompt('');
+      setIsProcessing(false);
+      setText(text);
+    } catch (error) {
+      console.error(error);
+      setPrompt('');
+      setIsProcessing(false);
+    }
+  };
+
+  return (
+    <div>
+      {text}
+      <div>
+        <textarea value={prompt} onChange={handlePromptChange} />
+      </div>
+      {isProcessing ? 'Processing...' : <button onClick={handleAskPress}>Ask!</button>}
+    </div>
+  );
 }
