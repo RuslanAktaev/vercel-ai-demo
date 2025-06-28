@@ -1,8 +1,8 @@
-import { useTranslations } from 'next-intl';
+'use client';
+
 import { ReactElement } from 'react';
+import { TestComponent } from './test-component';
 
 export default function Index(): ReactElement {
-  const t = useTranslations('web-shared.HOME_PAGE');
-
-  return <div>{t('HOME_PAGE_TEXT')}</div>;
+  return <TestComponent />;
 }
