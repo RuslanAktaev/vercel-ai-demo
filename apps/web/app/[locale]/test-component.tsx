@@ -1,49 +1,64 @@
 'use-client';
 
-import { generateText } from 'ai';
-import { createOllama } from 'ollama-ai-provider';
+import { createTogetherAI } from '@ai-sdk/togetherai';
+import { generateObject } from 'ai';
 import { ChangeEvent, ReactElement, useState } from 'react';
+import { z } from 'zod';
 
-const ollamaProvider = createOllama({
-  baseURL: 'http://localhost:11434/api',
+const togetherAi = createTogetherAI({
+  apiKey: process.env.NEXT_PUBLIC_TOGETHER_AI_API_KEY,
 });
 
 export function TestComponent(): ReactElement {
-  const [prompt, setPrompt] = useState('');
+  const [text, setText] = useState('');
 
   const [isProcessing, setIsProcessing] = useState(false);
-  const [text, setText] = useState<string>('');
+  const [result, setResult] = useState<{
+    mood: string;
+    moodDescription: string;
+    emoji: string;
+  } | null>(null);
 
   const handlePromptChange = (event: ChangeEvent<HTMLTextAreaElement>): void => {
-    setPrompt(event.target.value);
+    setText(event.target.value);
   };
 
   const handleAskPress = async (): Promise<void> => {
     setIsProcessing(true);
 
     try {
-      const { text } = await generateText({
-        model: ollamaProvider('mistral'),
-        prompt,
+      const { object } = await generateObject({
+        model: togetherAi('meta-llama/Llama-3.3-70B-Instruct-Turbo-Free'),
+        system: 'You evaluating user text mood',
+        prompt: `Evaluate user's text mood. User's text: ${text}.`,
+        schema: z.object({
+          mood: z.string(),
+          moodDescription: z.string(),
+          emoji: z.string(),
+        }),
       });
 
-      setPrompt('');
+      setText('');
       setIsProcessing(false);
-      setText(text);
+      setResult(object);
     } catch (error) {
       console.error(error);
-      setPrompt('');
+      setText('');
       setIsProcessing(false);
     }
   };
 
   return (
     <div>
-      {text}
+      {result && (
+        <p>
+          {result.emoji}: {result.moodDescription}
+        </p>
+      )}
       <div>
-        <textarea value={prompt} onChange={handlePromptChange} />
+        <textarea value={text} onChange={handlePromptChange} />
       </div>
-      {isProcessing ? 'Processing...' : <button onClick={handleAskPress}>Ask!</button>}
+      {isProcessing ? 'Processing...' : <button onClick={handleAskPress}>Evaluate the text</button>}
     </div>
   );
 }

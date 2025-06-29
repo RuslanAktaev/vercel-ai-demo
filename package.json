@@ -10,15 +10,16 @@
   },
   "private": true,
   "dependencies": {
+    "@ai-sdk/togetherai": "^0.2.14",
     "@ronas-it/rtkq-entity-api": "^0.4.3",
     "ai": "^4.3.16",
     "lodash-es": "^4.17.21",
     "next": "~15.2.4",
     "next-intl": "^3.26.3",
-    "ollama-ai-provider": "^1.2.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-redux": "^9.1.2"
+    "react-redux": "^9.1.2",
+    "zod": "^3.25.67"
   },
   "devDependencies": {
     "@eslint/compat": "^1.2.6",
