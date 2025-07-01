@@ -6,6 +6,8 @@ import { constants } from '../../constants';
 import { Providers } from './providers';
 import type { Locale } from '@vercel-ai-demo/web/shared/utils/i18n';
 
+import '@vercel-ai-demo/web/shared/ui/styles/global';
+
 export const metadata = {
   title: 'Web',
 };

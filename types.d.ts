@@ -2,3 +2,6 @@
 // Issue: https://github.com/gustavopch/tsc-files/issues/20
 // TODO: Uncomment the line below if you have an Expo app
 // import 'node_modules/@nx/expo/typings/svg.d.ts';
+declare module '*.scss';
+declare module '*.svg';
+declare module '*.png';

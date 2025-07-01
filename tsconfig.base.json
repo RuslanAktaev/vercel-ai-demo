@@ -23,7 +23,11 @@
     "target": "es2015",
     "baseUrl": ".",
     "rootDir": ".",
+    "outDir": "dist",
     "paths": {
+      "@vercel-ai-demo/web/shared/features/article-creator": ["libs/web/shared/features/article-creator/src/index.ts"],
+      "@vercel-ai-demo/web/shared/ui/styles/global": ["libs/web/shared/ui/styles/src/global.scss"],
+      "@vercel-ai-demo/web/shared/ui/ui-kit": ["libs/web/shared/ui/ui-kit/src/index.ts"],
       "@vercel-ai-demo/web/shared/utils/app-env": ["libs/web/shared/utils/app-env/src/index.ts"],
       "@vercel-ai-demo/web/shared/utils/i18n": ["libs/web/shared/utils/i18n/src/index.ts"]
     }
