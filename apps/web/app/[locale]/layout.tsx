@@ -1,9 +1,9 @@
 import { pick } from 'lodash-es';
 import { notFound } from 'next/navigation';
-import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, setRequestLocale } from 'next-intl/server';
 import { ReactElement, ReactNode } from 'react';
 import { constants } from '../../constants';
+import { Providers } from './providers';
 import type { Locale } from '@vercel-ai-demo/web/shared/utils/i18n';
 
 export const metadata = {
@@ -36,9 +36,9 @@ export default async function RootLayout({ children, params }: RootLayoutProps):
         <meta name='robots' content={process.env.NEXT_PUBLIC_APP_ENV === 'production' ? 'index' : 'noindex'} />
       </head>
       <body>
-        <NextIntlClientProvider messages={pick(messages, 'web-shared')} locale={locale}>
+        <Providers messages={pick(messages, 'web-shared')} locale={locale}>
           {children}
-        </NextIntlClientProvider>
+        </Providers>
       </body>
     </html>
   );

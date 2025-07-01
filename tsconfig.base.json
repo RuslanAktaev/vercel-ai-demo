@@ -8,37 +8,24 @@
     "noImplicitAny": true,
     "strictPropertyInitialization": false,
     "strictNullChecks": true,
-    "composite": true,
-    "declarationMap": true,
-    "emitDeclarationOnly": true,
+    "composite": false,
     "importHelpers": true,
     "isolatedModules": true,
-    "lib": ["es2022"],
+    "lib": ["es2020", "dom"],
     "module": "esnext",
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
     "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitOverride": true,
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "skipLibCheck": true,
-    "target": "es2022",
-    "customConditions": ["development"],
+    "target": "es2015",
     "baseUrl": ".",
     "rootDir": ".",
-    "outDir": "dist",
     "paths": {
       "@vercel-ai-demo/web/shared/utils/app-env": ["libs/web/shared/utils/app-env/src/index.ts"],
       "@vercel-ai-demo/web/shared/utils/i18n": ["libs/web/shared/utils/i18n/src/index.ts"]
     }
-  },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.js",
-    "**/*.jsx",
-    ".eslint*.cjs",
-    "eslint.config.cjs",
-    "eslint.constraints.json"
-  ]
+  }
 }
