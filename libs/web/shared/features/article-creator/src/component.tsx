@@ -1,10 +1,275 @@
-import { ReactElement } from 'react';
+'use client';
+
+import { useEditor, EditorContent } from '@tiptap/react';
+import StarterKit from '@tiptap/starter-kit';
+import { clsx } from 'clsx';
+import {
+  Bold,
+  Italic,
+  Strikethrough,
+  Code,
+  List,
+  ListOrdered,
+  Heading1,
+  Heading2,
+  Heading3,
+  Undo,
+  Redo,
+} from 'lucide-react';
+import { ReactNode } from 'react';
 import { AppButton } from '@vercel-ai-demo/web/shared/ui/ui-kit';
 
-export function ArticleCreator(): ReactElement {
+interface ArticleCreatorProps {
+  content?: string;
+  onChange?: (content: string) => void;
+  placeholder?: string;
+  className?: string;
+}
+
+export function ArticleCreator({ content = '', onChange, className }: ArticleCreatorProps): ReactNode {
+  // const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const editor = useEditor({
+    immediatelyRender: false,
+    extensions: [
+      StarterKit.configure({
+        codeBlock: false,
+      }),
+      // Link.configure({
+      //   openOnClick: false,
+      // }),
+      // Image.configure({
+      //   HTMLAttributes: {
+      //     class: 'max-w-full h-auto rounded-lg',
+      //   },
+      // }),
+    ],
+    content,
+    onUpdate: ({ editor }) => {
+      onChange?.(editor.getHTML());
+    },
+    editorProps: {
+      attributes: {
+        class: 'prose prose-neutral max-w-none focus:outline-none min-h-[200px] p-4',
+      },
+    },
+  });
+
+  // const setLink = useCallback(() => {
+  //   if (!editor) return;
+
+  //   const previousUrl = editor.getAttributes('link').href;
+  //   const url = window.prompt('URL', previousUrl);
+
+  //   if (url === null) return;
+
+  //   if (url === '') {
+  //     editor.chain().focus().extendMarkRange('link').unsetLink().run();
+
+  //     return;
+  //   }
+
+  //   editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
+  // }, [editor]);
+
+  // const addImage = useCallback(() => {
+  //   if (!editor) return;
+  //   fileInputRef.current?.click();
+  // }, [editor]);
+
+  // const handleImageUpload = useCallback(
+  //   (event: React.ChangeEvent<HTMLInputElement>) => {
+  //     const file = event.target.files?.[0];
+  //     if (!file || !editor) return;
+
+  //     // Check if file is an image
+  //     if (!file.type.startsWith('image/')) {
+  //       alert('Please select an image file');
+
+  //       return;
+  //     }
+
+  //     // Check file size (limit to 5MB)
+  //     if (file.size > 5 * 1024 * 1024) {
+  //       alert('Image size should be less than 5MB');
+
+  //       return;
+  //     }
+
+  //     const reader = new FileReader();
+
+  //     reader.onload = (e) => {
+  //       const src = e.target?.result as string;
+
+  //       if (src) {
+  //         editor.chain().focus().setImage({ src }).run();
+  //       }
+  //     };
+  //     reader.readAsDataURL(file);
+
+  //     // Reset the input
+  //     event.target.value = '';
+  //   },
+  //   [editor],
+  // );
+
+  if (!editor) {
+    return null;
+  }
+
+  console.log('editor', editor);
+
   return (
-    <div>
-      <AppButton color='success'>Click me</AppButton>
+    <div className={clsx('border border-border rounded-lg bg-background', className)}>
+      {/* Toolbar */}
+      <div className='border-b border-border p-2 flex flex-wrap items-center gap-1'>
+        {/* Text Formatting */}
+        <div className='flex items-center gap-1'>
+          <AppButton
+            variant='ghost'
+            size='sm'
+            onClick={() => editor.chain().focus().toggleBold().run()}
+            className={clsx('h-8 w-8 p-0', editor.isActive('bold') && 'bg-accent')}>
+            <Bold className='h-4 w-4' />
+          </AppButton>
+          <AppButton
+            variant='ghost'
+            size='sm'
+            onClick={() => editor.chain().focus().toggleItalic().run()}
+            className={clsx('h-8 w-8 p-0', editor.isActive('italic') && 'bg-accent')}>
+            <Italic className='h-4 w-4' />
+          </AppButton>
+          <AppButton
+            variant='ghost'
+            size='sm'
+            onClick={() => editor.chain().focus().toggleStrike().run()}
+            className={clsx('h-8 w-8 p-0', editor.isActive('strike') && 'bg-accent')}>
+            <Strikethrough className='h-4 w-4' />
+          </AppButton>
+          <AppButton
+            variant='ghost'
+            size='sm'
+            onClick={() => editor.chain().focus().toggleCode().run()}
+            className={clsx('h-8 w-8 p-0', editor.isActive('code') && 'bg-accent')}>
+            <Code className='h-4 w-4' />
+          </AppButton>
+        </div>
+
+        {/* Headers */}
+        <div className='flex items-center gap-1'>
+          <AppButton
+            variant='ghost'
+            size='sm'
+            onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+            className={clsx('h-8 w-8 p-0', editor.isActive('heading', { level: 1 }) && 'bg-accent')}>
+            <Heading1 className='h-4 w-4' />
+          </AppButton>
+          <AppButton
+            variant='ghost'
+            size='sm'
+            onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+            className={clsx('h-8 w-8 p-0', editor.isActive('heading', { level: 2 }) && 'bg-accent')}>
+            <Heading2 className='h-4 w-4' />
+          </AppButton>
+          <AppButton
+            variant='ghost'
+            size='sm'
+            onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
+            className={clsx('h-8 w-8 p-0', editor.isActive('heading', { level: 3 }) && 'bg-accent')}>
+            <Heading3 className='h-4 w-4' />
+          </AppButton>
+        </div>
+
+        {/* Lists */}
+        <div className='flex items-center gap-1'>
+          <AppButton
+            variant='ghost'
+            size='sm'
+            onClick={() => editor.chain().focus().toggleBulletList().run()}
+            className={clsx('h-8 w-8 p-0', editor.isActive('bulletList') && 'bg-accent')}>
+            <List className='h-4 w-4' />
+          </AppButton>
+          <AppButton
+            variant='ghost'
+            size='sm'
+            onClick={() => editor.chain().focus().toggleOrderedList().run()}
+            className={clsx('h-8 w-8 p-0', editor.isActive('orderedList') && 'bg-accent')}>
+            <ListOrdered className='h-4 w-4' />
+          </AppButton>
+        </div>
+
+        {/* Quote and Code Block */}
+        {/* <div className='flex items-center gap-1'>
+          <AppButton
+            variant='ghost'
+            size='sm'
+            onClick={() => editor.chain().focus().toggleBlockquote().run()}
+            className={clsx('h-8 w-8 p-0', editor.isActive('blockquote') && 'bg-accent')}>
+            <Quote className='h-4 w-4' />
+          </AppButton>
+          <AppButton
+            variant='ghost'
+            size='sm'
+            onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+            className={clsx('h-8 w-8 p-0', editor.isActive('codeBlock') && 'bg-accent')}>
+            <Code2 className='h-4 w-4' />
+          </AppButton>
+        </div> */}
+
+        {/* Link */}
+        {/* <div className='flex items-center gap-1'>
+          <Button
+            variant='ghost'
+            size='sm'
+            onClick={setLink}
+            className={cn('h-8 w-8 p-0', editor.isActive('link') && 'bg-accent')}>
+            <LinkIcon className='h-4 w-4' />
+          </Button>
+          <Button variant='ghost' size='sm' onClick={addImage} className='h-8 w-8 p-0'>
+            <ImageIcon className='h-4 w-4' />
+          </Button>
+        </div> */}
+
+        {/* Hidden file input */}
+        {/* <input ref={fileInputRef} type='file' accept='image/*' onChange={handleImageUpload} className='hidden' /> */}
+
+        {/* <UISeparator orientation='vertical' className='h-6' /> */}
+
+        {/* Undo/Redo */}
+        <div className='flex items-center gap-1'>
+          <AppButton
+            variant='ghost'
+            size='sm'
+            onClick={() => editor.chain().focus().undo().run()}
+            disabled={!editor.can().undo()}
+            className='h-8 w-8 p-0'>
+            <Undo className='h-4 w-4' />
+          </AppButton>
+          <AppButton
+            variant='ghost'
+            size='sm'
+            onClick={() => editor.chain().focus().redo().run()}
+            disabled={!editor.can().redo()}
+            className='h-8 w-8 p-0'>
+            <Redo className='h-4 w-4' />
+          </AppButton>
+        </div>
+      </div>
+
+      {/* Editor */}
+      <EditorContent
+        editor={editor}
+        className='min-h-[200px] focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 rounded-b-lg'
+      />
+
+      {/* Footer */}
+      <div className='border-t border-border px-4 py-2 text-sm text-muted-foreground flex justify-between items-center'>
+        <div className='text-xs'>
+          Use <kbd className='px-1.5 py-0.5 text-xs bg-muted rounded'>Cmd+B</kbd> for bold,{' '}
+          <kbd className='px-1.5 py-0.5 text-xs bg-muted rounded'>Cmd+I</kbd> for italic, click{' '}
+          <kbd className='px-1.5 py-0.5 text-xs bg-muted rounded'>📷</kbd> to add images
+        </div>
+      </div>
     </div>
   );
 }
