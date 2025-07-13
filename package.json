@@ -12,6 +12,7 @@
   "dependencies": {
     "@heroui/react": "^2.7.11",
     "@ronas-it/rtkq-entity-api": "^0.4.3",
+    "@tiptap/extension-image": "^3.0.1",
     "@tiptap/pm": "^3.0.1",
     "@tiptap/react": "^3.0.1",
     "@tiptap/starter-kit": "^3.0.1",
